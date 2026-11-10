@@ -1,0 +1,211 @@
+/* Admin: a calmer, denser layout that keeps the SERIES 001 look. */
+.admin {
+  min-height: calc(100vh - var(--nav-h));
+}
+
+.admin__login {
+  max-width: 560px;
+  margin: 0 auto;
+}
+.admin__login-title {
+  font-size: clamp(3rem, 12vw, 6rem);
+  margin: 8px 0 28px;
+}
+.admin__card {
+  border: var(--line);
+  background: var(--paper);
+  box-shadow: 8px 8px 0 var(--black);
+  padding: clamp(18px, 3vw, 28px);
+}
+.admin__login-form {
+  display: grid;
+  gap: 16px;
+}
+
+.admin__shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px var(--gutter) 64px;
+}
+.admin__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: var(--line);
+}
+.admin__bar-title {
+  font-weight: 900;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+.admin__bar-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.admin__h1 {
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  margin-bottom: 20px;
+}
+
+/* stats */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  margin: 0 0 24px;
+}
+.stats__item {
+  border: var(--line);
+  background: var(--paper);
+  padding: 12px 14px;
+}
+.stats__item:nth-child(5n + 1) { background: var(--paper); }
+.stats__item:nth-child(5n + 2) { background: var(--green); }
+.stats__item:nth-child(5n + 3) { background: var(--orange); }
+.stats__item:nth-child(5n + 4) { background: var(--red); }
+.stats__item:nth-child(5n + 5) { background: var(--blue); color: var(--paper); }
+.stats__value {
+  margin: 0;
+  font-weight: 900;
+  font-size: 2.4rem;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+/* rows */
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border: var(--line);
+  background: var(--paper);
+}
+.row--comment {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+.row.is-hidden {
+  opacity: 0.6;
+}
+.row__thumb {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border: 2px solid var(--black);
+  background: var(--black);
+  overflow: hidden;
+}
+.row__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.row__badge {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  padding: 1px 4px;
+  background: var(--red);
+  font-weight: 800;
+  font-size: 0.6rem;
+}
+.row__title {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+.row__body {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.row__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.status--published { background: var(--green); }
+.status--draft { background: var(--orange); }
+
+@media (max-width: 760px) {
+  .row,
+  .row--comment {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .row--comment {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .row .status,
+  .row__actions {
+    grid-column: 1 / -1;
+    justify-self: start;
+    justify-content: flex-start;
+  }
+}
+
+/* editor */
+.editor {
+  display: grid;
+  gap: 24px;
+}
+.editor__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+.editor__fields {
+  display: grid;
+  gap: 18px;
+}
+.editor__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.editor__media {
+  display: grid;
+  gap: 10px;
+}
+.editor__preview {
+  display: grid;
+  place-items: center;
+  border: var(--line);
+  background: var(--paper);
+  box-shadow: 6px 6px 0 var(--black);
+  overflow: hidden;
+}
+.editor__preview img,
+.editor__preview video {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  background: var(--black);
+}
+.editor__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+@media (max-width: 860px) {
+  .editor__grid {
+    grid-template-columns: 1fr;
+  }
+}

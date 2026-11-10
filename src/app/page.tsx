@@ -1,69 +1,81 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import Marquee from "@/components/Marquee";
+import "@/styles/home.css";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.tsx</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <section className="home page">
+        <p className="eyebrow home__issue">
+          Issue No. 001 &nbsp;/&nbsp; Printed digitally &nbsp;/&nbsp; Never
+          finished
+        </p>
+
+        <h1 className="display home__title">
+          <span>SERIES</span>
+          <span className="home__title-num">001</span>
+        </h1>
+
+        <div className="home__descriptor">AN INDEPENDENT VISUAL ARCHIVE</div>
+
+        <div className="home__shapes" aria-hidden="true">
+          <div className="home__block home__block--blue" />
+          <div className="home__block home__block--green" />
+          <div className="home__block home__block--outline" />
+          <div className="sticker sticker--burst home__burst spin-slow">
+            <span>
+              FRESH
+              <br />
+              PRINT
+            </span>
+          </div>
+        </div>
+
+        <p className="note home__note home__note--a">
+          ↓ start here (or don&apos;t, no rules)
+        </p>
+        <p className="note home__note home__note--b">
+          vol. 01 — the first edition,
+          <br />
+          more to come
+        </p>
+
+        <h2 className="display home__headline">
+          Design, image, motion &amp; everything in between.
+        </h2>
+
+        <div className="home__lower">
+          <p className="body-copy home__intro">
+            A growing collection of visual experiments, graphic explorations,
+            moving images, and ideas. Some planned, some accidental, all part of
+            the process.
           </p>
+
+          <div className="home__cta">
+            <Link href="/work" className="btn btn--red">
+              Enter the archive →
+            </Link>
+            <Link href="/about" className="btn btn--light">
+              About
+            </Link>
+            <Link href="/contact" className="btn btn--light">
+              Contact
+            </Link>
+          </div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </section>
+
+      <Marquee
+        items={[
+          "Graphic design",
+          "Photography",
+          "Video",
+          "Typography",
+          "Motion",
+          "Experiments",
+          "Series 001",
+        ]}
+      />
+    </>
   );
 }

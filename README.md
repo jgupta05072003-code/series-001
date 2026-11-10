@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SERIES 001
 
-## Getting Started
+A personal visual archive for Chaitanya Gupta: graphic design, photography, video and experiments. Built as a bold, editorial, Montserrat-only site with a public Instagram-style feed and a private admin dashboard.
 
-First, run the development server:
+**Stack:** Next.js 16 (App Router, TypeScript) · Supabase (Auth, Postgres, Storage, Row Level Security) · plain CSS.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Pages
+
+| Route | What it is |
+| --- | --- |
+| `/` | Cover / homepage |
+| `/about` | "Who the hell is Chaitanya?", education timeline, Beyond the Frame |
+| `/work` | Dynamic masonry feed from the database: filters, detail modal, likes, comments, share (deep links via `?post=<id>`) |
+| `/contact` | Email, LinkedIn, editable social links |
+| `/admin` | Owner-only control room: upload, edit, drafts, publish, delete, moderate comments, engagement stats |
+
+## Setup
+
+1. `npm install`
+2. Create a project at [supabase.com](https://supabase.com).
+3. SQL Editor: run `supabase/schema.sql` (tables, RLS policies, storage bucket, like function).
+4. Authentication → Users → **Add user** (tick *Auto Confirm User*) with the email/password you'll use to sign in.
+5. SQL Editor: run `supabase/owner.sql` (edit the email first). This makes that account the only owner.
+6. Authentication → Sign In / Providers → turn **off** "Allow new users to sign up".
+7. Copy `.env.example` to `.env.local` and fill in the project URL and the **anon/publishable** key (Settings → API).
+8. Optional: run `supabase/seed.sql` for six sample posts (they point at `public/samples`; delete them from the dashboard when you have real work).
+9. `npm run dev`, open `http://localhost:3000`, then `/admin`.
+
+### Social links
+
+Set `NEXT_PUBLIC_INSTAGRAM_URL`, `NEXT_PUBLIC_BEHANCE_URL`, `NEXT_PUBLIC_PINTEREST_URL` (or edit `src/lib/site.ts`). Until set, those cards open the platform home page and say "Handle coming soon".
+
+## Security model
+
+- **No secret keys in the app.** Only the public anon key is used; the `service_role` key is never needed.
+- **Row Level Security everywhere.** The public can read published posts and visible comments, and add comments to published posts. Only users listed in `public.owners` can create/edit/delete posts, moderate comments, or write to the `media` storage bucket. `owners` has no write policies, so nobody can promote themselves.
+- **Three layers on `/admin`:** the proxy redirects signed-out visitors, the admin layout re-checks `is_owner()` on the server, and the database enforces the same rule via RLS.
+- **Likes** go through a `security definer` function keyed by an anonymous per-browser id; the `likes` table itself is closed to clients.
+- **Comments** have length limits in the database and a honeypot field. There is no rate limiting; if spam appears, hide/delete from the dashboard or add Supabase CAPTCHA / an Edge Function.
+- Uploads are limited to 50 MB and image/video MIME types by the bucket itself.
+
+## Project layout
+
+```
+src/app/            routes (public pages, admin/(panel) guarded group, sitemap, robots)
+src/components/     Nav, Footer, Reveal, Marquee, work/* (feed, card, modal), admin/*
+src/lib/            site content, types, Supabase clients, media + format helpers
+src/styles/         per-page CSS (design tokens live in app/globals.css)
+supabase/           schema.sql, owner.sql, seed.sql
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Typography: Montserrat only (weights 300–900, plus italic), loaded with `next/font` and a system sans fallback.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy to Vercel, add the same env vars (plus `NEXT_PUBLIC_SITE_URL`), and add your production URL under Supabase → Authentication → URL Configuration.
