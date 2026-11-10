@@ -51,6 +51,11 @@ supabase/           schema.sql, owner.sql, seed.sql
 
 Typography: Montserrat only (weights 300–900, plus italic), loaded with `next/font` and a system sans fallback.
 
-## Deploy
+## Deploy to Render
 
-Deploy to Vercel, add the same env vars (plus `NEXT_PUBLIC_SITE_URL`), and add your production URL under Supabase → Authentication → URL Configuration.
+1. Push is already on GitHub. In Render: **New → Blueprint**, connect GitHub, pick this repo (`render.yaml` is picked up automatically).
+2. Fill in the prompted env vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `NEXT_PUBLIC_SITE_URL` (the `https://series-001.onrender.com` URL Render gives you; the social URLs can stay blank).
+3. These `NEXT_PUBLIC_*` values are baked in at build time, so after changing one, trigger a new deploy.
+4. In Supabase → Authentication → URL Configuration, set the Site URL to the Render URL.
+
+The free plan sleeps after inactivity, so the first visit after a while is slow.

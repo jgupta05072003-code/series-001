@@ -1,0 +1,25 @@
+# Render Blueprint: Dashboard -> New -> Blueprint -> pick this repo.
+# Render will ask for the values marked sync:false (they are never stored in git).
+services:
+  - type: web
+    name: series-001
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        sync: false
+      - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+        sync: false
+      - key: NEXT_PUBLIC_SITE_URL
+        sync: false
+      - key: NEXT_PUBLIC_INSTAGRAM_URL
+        sync: false
+      - key: NEXT_PUBLIC_BEHANCE_URL
+        sync: false
+      - key: NEXT_PUBLIC_PINTEREST_URL
+        sync: false
